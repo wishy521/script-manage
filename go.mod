@@ -1,4 +1,4 @@
-module scripts-manager
+module scripts-manage
 
 go 1.20
 

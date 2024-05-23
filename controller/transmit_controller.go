@@ -3,10 +3,9 @@ package controller
 import (
 	"net"
 	"os"
-	"scripts-manager/common"
+	"scripts-manage/common"
 	"time"
 )
-
 
 func SendFileToHost(hostArray *[]string, filePath string) (map[string]bool, string, error) {
 	hostIPMap := make(map[string]bool)
@@ -21,9 +20,9 @@ func SendFileToHost(hostArray *[]string, filePath string) (map[string]bool, stri
 				return nil, sendInfo, err
 			}
 			hostIPMap[host] = true
-			successCount ++
+			successCount++
 		} else {
-			common.Log.Infof("host %s connection dose not exeit ", host)
+			common.Log.Warnf("host %s connection dose not exeit ", host)
 			hostIPMap[host] = false
 		}
 	}
@@ -39,7 +38,6 @@ func SendFileToHost(hostArray *[]string, filePath string) (map[string]bool, stri
 	}
 	return hostIPMap, sendInfo, nil
 }
-
 
 // WriteConnection 写入内容到TCP连接
 func WriteConnection(conn net.Conn, filePath string) error {

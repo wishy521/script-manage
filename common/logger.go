@@ -12,8 +12,6 @@ import (
 // Log 全局日志变量
 var Log *zap.SugaredLogger
 
-//var Log *zap.Logger
-
 func InitLogger() {
 	now := time.Now()
 	infoLogFileName := fmt.Sprintf("%s/info/%04d-%02d-%02d.log", Conf.Logs.Path, now.Year(), now.Month(), now.Day())
@@ -21,10 +19,6 @@ func InitLogger() {
 	var coreArr []zapcore.Core
 
 	// 获取编码器
-	//encoderConfig := zap.NewProductionEncoderConfig()
-	//encoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder        // 指定时间格式
-	//encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder // ，不需要的话取值zapcore.CapitalLevelEncoder就可以了
-	////encoderConfig.EncodeCaller = zapcore.FullCallerEncoder        // 显示完整文件路径
 	encoderConfig := zapcore.EncoderConfig{
 		MessageKey:    "msg",
 		LevelKey:      "level",
@@ -38,15 +32,8 @@ func InitLogger() {
 		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 			enc.AppendString(t.Format("2006-01-02 15:04:05"))
 		},
-		//EncodeTime: zapcore.ISO8601TimeEncoder, // ISO8601 UTC 时间格式
-		//EncodeDuration: func(d time.Duration, enc zapcore.PrimitiveArrayEncoder) {
-		//	enc.AppendInt64(int64(d) / 1000000)
-		//},
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
-		//EncodeCaller: zapcore.FullCallerEncoder,
-		//EncodeName:       nil,
-		//ConsoleSeparator: "",
 	}
 	encoder := zapcore.NewConsoleEncoder(encoderConfig)
 
@@ -94,6 +81,5 @@ func InitLogger() {
 
 	logger := zap.New(zapcore.NewTee(coreArr...), zap.AddCaller())
 	Log = logger.Sugar()
-	Log.Info("初始化zap日志完成!")
+	Log.Info("Initialize zap logs completed!")
 }
-

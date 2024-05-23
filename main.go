@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 	"net/http"
-	"scripts-manager/common"
-	"scripts-manager/controller"
+	"scripts-manage/common"
+	"scripts-manage/controller"
 )
 
 func main() {
@@ -50,6 +50,6 @@ func main() {
 			common.Log.Errorf("Receive client connection failed: %s", err)
 			continue
 		}
-		go controller.TcpConnectionManger(conn)
+		go controller.HandleConnection(conn)
 	}
 }

@@ -9,20 +9,33 @@ import (
 var Conf = new(config)
 
 type config struct {
-	Server  *ServerConfig `mapstructure:"server" json:"server"`
-	Logs    *LogsConfig   `mapstructure:"logs" json:"logs"`
+	Server *ServerConfig `mapstructure:"server" json:"server"`
+	Logs   *LogsConfig   `mapstructure:"logs" json:"logs"`
 }
 
 type ServerConfig struct {
-	Port      *Port  `mapstructure:"port" json:"port"`
-	Path      string `mapstructure:"path" json:"path"`
-	Config    string `mapstructure:"config" json:"config"`
-	Username  string `mapstructure:"username" json:"username"`
-	Password  string `mapstructure:"password" json:"password"`
+	Port      *Port    `mapstructure:"port" json:"port"`
+	Path      string   `mapstructure:"path" json:"path"`
+	Whitelist []string `mapstructure:"whitelist" json:"whitelist"`
+	Auth      *Auth    `mapstructure:"auth" json:"auth"`
+	Limit     *Limit   `mapstructure:"limit" json:"limit"`
 }
+
 type Port struct {
-	Http  int  `mapstructure:"http" json:"http"`
-	Tcp   int  `mapstructure:"tcp" json:"tcp"`
+	Http int `mapstructure:"http" json:"http"`
+	Tcp  int `mapstructure:"tcp" json:"tcp"`
+}
+
+type Auth struct {
+	Enable   bool   `mapstructure:"enable" json:"enable"`
+	Username string `mapstructure:"username" json:"username"`
+	Password string `mapstructure:"password" json:"password"`
+}
+
+type Limit struct {
+	Enable   bool `mapstructure:"enable" json:"enable"`
+	Duration int  `mapstructure:"duration" json:"duration"`
+	Count    int  `mapstructure:"count" json:"count"`
 }
 
 type LogsConfig struct {
@@ -33,7 +46,6 @@ type LogsConfig struct {
 	MaxAge     int           `mapstructure:"max-age" json:"maxAge"`
 	Compress   bool          `mapstructure:"compress" json:"compress"`
 }
-
 
 // InitConfig 设置读取配置信息
 func InitConfig() {

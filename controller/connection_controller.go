@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net"
 	"net/http"
-	"scripts-manager/common"
+	"scripts-manage/common"
 )
 
 // 客户端列表
@@ -29,7 +29,8 @@ type ClientInfo struct {
 	Conn net.Conn
 }
 
-func TcpConnectionManger(conn net.Conn) {
+// HandleConnection TCP连接管理
+func HandleConnection(conn net.Conn) {
 	defer conn.Close()
 
 	// 获取客户端的地址信息
@@ -52,10 +53,10 @@ func TcpConnectionManger(conn net.Conn) {
 	}
 }
 
-func TcpConnectionShow(c *gin.Context)  {
+func TcpConnectionShow(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 2000,
-		"msg": "success",
+		"msg":  "success",
 		"data": clients,
 	})
 	return
